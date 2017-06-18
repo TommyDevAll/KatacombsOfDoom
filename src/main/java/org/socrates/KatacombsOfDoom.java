@@ -5,11 +5,13 @@ class KatacombsOfDoom {
     private final GameState gameState;
     private final TextCommandFactory factory;
     private final Console console;
+    private SuicideCommand suicideCommand;
 
     KatacombsOfDoom(GameState gameState, TextCommandFactory factory, Console console) {
         this.gameState = gameState;
         this.factory = factory;
         this.console = console;
+        suicideCommand = new SuicideCommand(console);
     }
 
     void start() {
@@ -18,6 +20,6 @@ class KatacombsOfDoom {
         while (!"Suicide".equals(input = console.read())) {
             factory.make(input).ifPresent((c -> c.execute(gameState)));
         }
-        new SuicideCommand(console);
+        suicideCommand.execute(gameState);
     }
 }
