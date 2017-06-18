@@ -16,10 +16,14 @@ class KatacombsOfDoom {
 
     void start() {
         console.write("You are in " + gameState.currentRoom().name());
-        String input = "";
+        String input;
         while (!"Suicide".equals(input = console.read())) {
-            factory.make(input).ifPresent((c -> c.execute(gameState)));
+            factory.make(input).ifPresent(this::execute);
         }
         suicideCommand.execute(gameState);
+    }
+
+    private void execute(Command command) {
+        command.execute(gameState);
     }
 }
