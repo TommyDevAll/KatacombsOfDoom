@@ -1,14 +1,14 @@
 package org.socrates;
 
-class LookCommand {
+public class LookCommand implements Command {
 
     private Console console;
 
-    LookCommand(Console console) {
+    public LookCommand(Console console) {
         this.console = console;
     }
 
-    void execute() {
+    public void execute(GameState gameState) {
         console.write("There is an exit to the north");
     }
 }

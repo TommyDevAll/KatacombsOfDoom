@@ -2,22 +2,22 @@ package org.socrates;
 
 class KatacombsOfDoom {
 
-    private final Room room;
-    private Console console;
-    private Commands commands;
+    private final GameState gameState;
+    private final TextCommandFactory factory;
+    private final Console console;
 
-    KatacombsOfDoom(Room initialRoom, Commands commands, Console console) {
-        this.room = initialRoom;
-        this.commands = commands;
+    KatacombsOfDoom(GameState gameState, TextCommandFactory factory, Console console) {
+        this.gameState = gameState;
+        this.factory = factory;
         this.console = console;
     }
 
     void start() {
-        console.write("You are in " + room.name());
-        String command = "";
-        while (!"Suicide".equals(command = console.read())) {
-            commands.execute(command);
+        console.write("You are in " + gameState.currentRoom().name());
+        String input = "";
+        while (!"Suicide".equals(input = console.read())) {
+            factory.make(input).ifPresent((c -> c.execute(gameState)));
         }
-        commands.execute("Suicide");
+        new SuicideCommand(console);
     }
 }

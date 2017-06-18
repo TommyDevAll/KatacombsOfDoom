@@ -11,8 +11,8 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class LookCommandShould {
 
-    @Mock
-    private Console console;
+    @Mock private Console console;
+    @Mock private GameState gameState;
 
     private LookCommand lookCommand;
 
@@ -23,7 +23,7 @@ public class LookCommandShould {
 
     @Test public void
     print_there_is_an_exit_to_the_north() {
-        lookCommand.execute();
+        lookCommand.execute(gameState);
 
         verify(console).write("There is an exit to the north");
     }

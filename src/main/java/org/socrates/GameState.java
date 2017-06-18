@@ -1,6 +1,6 @@
 package org.socrates;
 
-class GameState {
+public class GameState {
 
     private final Maze maze;
     private Position currentPosition;

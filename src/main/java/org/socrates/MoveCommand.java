@@ -1,17 +1,17 @@
 package org.socrates;
 
-class MoveCommand {
-    private GameState gameState;
+public class MoveCommand implements Command{
+    private Direction direction;
     private Console console;
 
-    MoveCommand(GameState gameState, Console console) {
-        this.gameState = gameState;
+    public MoveCommand(Direction direction, Console console) {
+        this.direction = direction;
         this.console = console;
     }
 
-    void execute(Direction direction) {
+    @Override
+    public void execute(GameState gameState) {
         gameState.move(direction);
-
         console.write("You are in " + gameState.currentRoom().name());
     }
 }

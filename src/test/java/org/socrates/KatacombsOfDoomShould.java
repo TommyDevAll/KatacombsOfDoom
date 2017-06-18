@@ -6,30 +6,39 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.Optional;
+
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class KatacombsOfDoomShould {
 
     @Mock Console console;
-    @Mock Commands commands;
+    @Mock TextCommandFactory factory;
+    @Mock Command aCommand;
+    @Mock GameState gameState;
 
     private KatacombsOfDoom katacombsOfDoom;
-    private Room room;
+    private Room library = new Room("Library");
 
     @Before
     public void initialise() {
         given(console.read()).willReturn("Suicide");
-        room = new Room("Library");
-        katacombsOfDoom = new KatacombsOfDoom(room, commands, console);
+        when(gameState.currentRoom()).thenReturn(library);
+        when(factory.make(anyString())).thenReturn(Optional.of(aCommand));
+
+        katacombsOfDoom = new KatacombsOfDoom(gameState, factory, console);
     }
 
     @Test public void
     prompt_player_that_he_is_in_a_room_with_a_given_name() {
         katacombsOfDoom.start();
 
-        verify(console).write("You are in " + room.name());
+        verify(console).write("You are in " + library.name());
     }
 
     @Test public void
@@ -38,7 +47,7 @@ public class KatacombsOfDoomShould {
 
         katacombsOfDoom.start();
 
-        verify(commands).execute("Look");
+        verify(factory).make("Look");
     }
 
 }

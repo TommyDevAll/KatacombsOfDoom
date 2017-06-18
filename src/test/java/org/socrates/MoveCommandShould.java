@@ -23,26 +23,28 @@ public class MoveCommandShould {
     public void initialise() {
         Room northRoom = new Room("North room");
         given(gameState.currentRoom()).willReturn(northRoom);
-        moveCommand = new MoveCommand(gameState, console);
     }
 
     @Test
     public void move_player_north() {
-        moveCommand.execute(NORTH);
+        moveCommand = new MoveCommand(NORTH, console);
+        moveCommand.execute(gameState);
 
         verify(gameState).move(NORTH);
     }
 
     @Test
     public void move_player_south() {
-        moveCommand.execute(SOUTH);
+        moveCommand = new MoveCommand(SOUTH, console);
+        moveCommand.execute(gameState);
 
         verify(gameState).move(SOUTH);
     }
 
     @Test public void
     display_current_room_after_moving() {
-        moveCommand.execute(NORTH);
+        moveCommand = new MoveCommand(NORTH, console);
+        moveCommand.execute(gameState);
 
         verify(console).write("You are in North room");
     }
